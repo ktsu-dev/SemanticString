@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>$(AuthorsNamespace).Semantics</RootNamespace>
+    <NoWarn>$(NoWarn);CA1859;</NoWarn>
+  </PropertyGroup>
+</Project>

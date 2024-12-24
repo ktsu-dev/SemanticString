@@ -1,0 +1,22 @@
+name: .NET Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+  schedule:
+    - cron: "0 14 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  packages: write
+  contents: write
+  
+jobs:
+  dotnet-library:
+    uses: ktsu-dev/workflows/.github/workflows/dotnet-workflow.yml@main
+    secrets: inherit

@@ -1,0 +1,128 @@
+<Project>
+  <PropertyGroup>
+    <DirectoryBuildPropsFile>$(MSBuildThisFileFullPath)</DirectoryBuildPropsFile>
+
+    <LangVersion>latest</LangVersion>
+    
+
+    <!-- Path properties-->
+    <SolutionPath>$([System.IO.Path]::GetFullPath($([System.IO.Directory]::GetFiles($(MSBuildThisFileDirectory), "*.sln")[0])))</SolutionPath>
+    <SolutionName>$([System.IO.Path]::GetFileNameWithoutExtension($(SolutionPath)))</SolutionName>
+    <SolutionDirectory>$([System.IO.Path]::GetDirectoryName($(SolutionPath)))</SolutionDirectory>
+    <PrimaryProjectName>$(SolutionName)</PrimaryProjectName>
+    <PrimaryProjectFileName>$(PrimaryProjectName).csproj</PrimaryProjectFileName>
+    <PrimaryProjectPath>$(SolutionDirectory)\$(PrimaryProjectName)\$(PrimaryProjectFileName)</PrimaryProjectPath>
+    <PrimaryProjectExists>false</PrimaryProjectExists>
+    <PrimaryProjectExists Condition="Exists($(PrimaryProjectPath))">true</PrimaryProjectExists>
+    <VersionFilePath>$(SolutionDirectory)\VERSION</VersionFilePath>
+    <AuthorsFilePath>$(SolutionDirectory)\AUTHORS</AuthorsFilePath>
+    <DescriptionFilePath>$(SolutionDirectory)\DESCRIPTION</DescriptionFilePath>
+    <ChangelogFilePath>$(SolutionDirectory)\CHANGELOG.md</ChangelogFilePath>
+    <ReadmeFilePath>$(SolutionDirectory)\README.md</ReadmeFilePath>
+    <LicenseFilePath>$(SolutionDirectory)\LICENSE.md</LicenseFilePath>
+    <RunSettingsFilePath>$(SolutionDirectory)\.runsettings</RunSettingsFilePath>
+    <EditorConfigFilePath>$(SolutionDirectory)\.editorconfig</EditorConfigFilePath>
+    <IconFilePath>$(SolutionDirectory)\icon.png</IconFilePath>
+
+    <!-- Namespace properties -->
+    <Authors Condition="Exists($(AuthorsFilePath))">$([System.IO.File]::ReadAllText($(AuthorsFilePath)).Trim())</Authors>
+    <AuthorsNamespace>$(Authors.Replace(" ", ""))</AuthorsNamespace>
+    <SolutionNamespace>$(SolutionName.Replace(" ", ""))</SolutionNamespace>
+    <ProjectNamespace>$(MSBuildProjectName.Replace(" ", ""))</ProjectNamespace>
+    <RootNamespace>$(AuthorsNamespace).$(ProjectNamespace)</RootNamespace>
+    <AssemblyName>$(RootNamespace)</AssemblyName>
+
+
+
+
+    
+
+    <!-- Assembly validation properties -->
+    <!--<ApiCompatStrictMode>true</ApiCompatStrictMode>
+    <ApiCompatValidateAssemblies>true</ApiCompatValidateAssemblies>-->
+
+    <!-- Assembly attribute properties -->
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <!--<GeneratedAssemblyInfoFile>assemblyinfo.cs</GeneratedAssemblyInfoFile>-->
+
+    <!-- Framework properties -->
+    <!--<TargetFramework>net9.0</TargetFramework>-->
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+
+    <!-- Package properties -->
+    <PackageId>$(AssemblyName)</PackageId>
+    <Version Condition="Exists($(VersionFilePath))">$([System.IO.File]::ReadAllText($(VersionFilePath)).Trim())</Version>
+    <Title>$(AssemblyName)</Title>
+    <Description Condition="Exists($(DescriptionFilePath))">$([System.IO.File]::ReadAllText($(DescriptionFilePath)).Trim())</Description>
+    <Company>$(Authors)</Company>
+    <Copyright>$(SolutionName) Copyright (c) 2023-$([System.DateTime]::Now.Year) $(Authors)</Copyright>
+    <Changelog Condition="Exists($(ChangelogFilePath))">$([System.IO.File]::ReadAllText($(ChangelogFilePath)).Trim())</Changelog>
+    <PackageVersion>$(Version)</PackageVersion>
+    <PackageIcon>$([System.IO.Path]::GetFileName($(IconFilePath)))</PackageIcon>
+    <PackageReadmeFile>$([System.IO.Path]::GetFileName($(ReadmeFilePath)))</PackageReadmeFile>
+    <PackageLicenseFile>$([System.IO.Path]::GetFileName($(LicenseFilePath)))</PackageLicenseFile>
+    <PackageReleaseNotes>$(Changelog)</PackageReleaseNotes>
+    <PackageDescription>$(Description)</PackageDescription>
+    <PackageProjectUrl>https://ktsu.dev</PackageProjectUrl>
+    <PackageProjectUrl Condition="$(RepositoryUrl) != ''">$($(RepositoryUrl).Replace("/.git", ""))</PackageProjectUrl>
+    <IncludeSource>true</IncludeSource>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <PackRelease>true</PackRelease>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IsPackable>false</IsPackable>
+
+    <!-- Package validation properties -->
+    <!--<ApiCompatEnableRuleAttributesMustMatch>true</ApiCompatEnableRuleAttributesMustMatch>-->
+    <!--<ApiCompatEnableRuleCannotChangeParameterName>true</ApiCompatEnableRuleCannotChangeParameterName>-->
+    <!--<ApiCompatGenerateSuppressionFile>true</ApiCompatGenerateSuppressionFile>-->
+    <!--<ApiCompatPermitUnnecessarySuppressions>true</ApiCompatPermitUnnecessarySuppressions>-->
+    <!--<ApiCompatPreserveUnnecessarySuppressions>true</ApiCompatPreserveUnnecessarySuppressions>-->
+    <!--<ApiCompatRespectInternals>true</ApiCompatRespectInternals>-->
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <EnableStrictModeForBaselineValidation>true</EnableStrictModeForBaselineValidation>
+    <!--<EnableStrictModeForCompatibleFrameworksInPackage>true</EnableStrictModeForCompatibleFrameworksInPackage>-->
+    <!--<EnableStrictModeForCompatibleTfms>true</EnableStrictModeForCompatibleTfms>-->
+    <NoWarn>CA1724;CA1034;CA1000;CA2260;CA1515;</NoWarn>
+    <!-- CA1724: Type names should not match namespaces -->
+    <!-- CA1034: Nested types should not be visible -->
+    <!-- CA1000: Do not declare static members on generic types -->
+    <!-- CA2260: Implement ISerializable correctly -->
+    <!-- CA1812: Avoid uninstantiated internal classes -->
+    <!-- CA1515: Override methods should call base methods -->
+
+    <!-- Publish-related properties -->
+    <!--<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>-->
+    <!--<AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>-->
+    <!--<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
+    <!--<ErrorOnDuplicatePublishOutputFiles>true</ErrorOnDuplicatePublishOutputFiles>-->
+    <IsPublishable>false</IsPublishable>
+    
+
+    <!-- Runtime configuration properties -->
+    <InvariantGlobalization>true</InvariantGlobalization>
+
+  
+    
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    
+    <NeutralLanguage>en-US</NeutralLanguage>
+
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>9999</WarningLevel>
+    
+
+
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <!--<AnalysisMode>All</AnalysisMode>-->
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <!--<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>-->
+    
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+
+    
+
+  </PropertyGroup>
+</Project>

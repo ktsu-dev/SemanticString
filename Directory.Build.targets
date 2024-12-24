@@ -1,0 +1,105 @@
+<Project>
+  <PropertyGroup>
+    <DirectoryBuildTargetsFile>$(MSBuildThisFileFullPath)</DirectoryBuildTargetsFile>
+    <HasMain>false</HasMain>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <FileContents>$([System.IO.File]::ReadAllText('%(Compile.FullPath)')</FileContents>
+    <HasMain Condition="$(FileContents.Contains('static void Main'))">true</HasMain>
+    <HasMain Condition="$(FileContents.Contains('static int Main'))">true</HasMain>
+    <HasMain Condition="$(FileContents.Contains('static async Task Main'))">true</HasMain>
+    <HasMain Condition="$(FileContents.Contains('static async Task&lt;int&gt; Main'))">true</HasMain>
+    <FileContents></FileContents>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType Condition="$(OutputType) == 'Library' And $(HasMain)">Exe</OutputType>
+
+    <IsTestProject Condition="$(IsTestProject) == ''">false</IsTestProject>
+    <IsTestProject Condition="$(MSBuildProjectName.EndsWith('.Test'))">true</IsTestProject>
+
+    <IsPrerelease>false</IsPrerelease>
+    <IsPrerelease Condition="$(Version.Contains('-'))">true</IsPrerelease>
+
+    <IsExecutable>false</IsExecutable>
+    <IsExecutable Condition="$(OutputType) == 'Exe' Or $(OutputType) == 'WinExe'">true</IsExecutable>
+
+    <IsLibrary>false</IsLibrary>
+    <IsLibrary Condition="$(OutputType) == 'Library' And !$(IsTestProject)">true</IsLibrary>
+
+    <IsPrimaryProject>false</IsPrimaryProject>
+    <IsPrimaryProject Condition="$(MSBuildProjectName) == $(PrimaryProjectName)">true</IsPrimaryProject>
+
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPublishable Condition="$(IsExecutable)">true</IsPublishable>
+    <IsPackable Condition="$(IsLibrary)">true</IsPackable>
+    <AnalysisLevel Condition="$(IsTestProject) OR $(IsPrerelease)">latest-recommended</AnalysisLevel>
+    <NoWarn Condition="$(IsTestProject) OR $(IsPrerelease)">$(NoWarn);CS1591;</NoWarn>
+    <!-- CS1591: Missing XML comment for publicly visible type or member -->
+    <NoWarn Condition="$(IsTestProject)">$(NoWarn);CS1591;CA2225;IDE0022;IDE0058;CA1305;CA5394;</NoWarn>
+    <!-- CA2225: Operator overloads have named alternates -->
+    <!-- IDE0022: Use expression body for methods -->
+    <!-- IDE0058: Expression value is never used -->
+    <!-- CA1305: Specify IFormatProvider -->
+    <!-- CA5394: Do not use insecure randomness -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+    <InternalsVisibleTo Condition="!$(IsTestProject)" Include="$(AssemblyName).Test" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(IsTestProject)">
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+    <ProjectReference Include="$(SolutionDirectory)\$(SolutionName)\$(SolutionName).csproj" />
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.7.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.7.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(IsPrimaryProject)">
+    <None Condition="Exists('$(DirectoryBuildPropsFile)')" Include="$(DirectoryBuildPropsFile)" Pack="false" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
+    <None Condition="Exists('$(DirectoryBuildTargetsFile)')" Include="$(DirectoryBuildTargetsFile)" Pack="false" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
+    <None Condition="Exists('$(AuthorsFilePath)')" Include="$(AuthorsFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
+    <None Condition="Exists('$(DescriptionFilePath)')" Include="$(DescriptionFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
+    <None Condition="Exists('$(LicenseFilePath)')" Include="$(LicenseFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
+    <None Condition="Exists('$(ChangelogFilePath)')" Include="$(ChangelogFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
+    <None Condition="Exists('$(ReadmeFilePath)')" Include="$(ReadmeFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
+    <None Condition="Exists('$(VersionFilePath)')" Include="$(VersionFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
+    <None Condition="Exists('$(IconFilePath)')" Include="$(IconFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
+  </ItemGroup>
+
+  <Target Name="GenerateMITLicense" BeforeTargets="BeforeBuild">
+    <WriteLinesToFile
+        File="$(LicenseFilePath)"
+        Lines='MIT License
+
+$(Copyright)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+'
+        Overwrite="true"
+        Encoding="Unicode" />
+  </Target>
+
+</Project>

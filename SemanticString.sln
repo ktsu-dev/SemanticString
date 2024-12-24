@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticString", "SemanticString\SemanticString.csproj", "{A6ADE6A8-8889-40FA-A009-9BF101F900E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticString.Test", "SemanticString.Test\SemanticString.Test.csproj", "{16211496-E28E-4DE0-B0EA-7E953646612A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6ADE6A8-8889-40FA-A009-9BF101F900E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6ADE6A8-8889-40FA-A009-9BF101F900E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6ADE6A8-8889-40FA-A009-9BF101F900E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6ADE6A8-8889-40FA-A009-9BF101F900E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16211496-E28E-4DE0-B0EA-7E953646612A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16211496-E28E-4DE0-B0EA-7E953646612A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16211496-E28E-4DE0-B0EA-7E953646612A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16211496-E28E-4DE0-B0EA-7E953646612A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CB6B2F0C-3C6B-4D53-87E0-CA4DDBD43BA4}
+	EndGlobalSection
+EndGlobal
