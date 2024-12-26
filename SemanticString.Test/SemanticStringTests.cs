@@ -98,4 +98,55 @@ public class SemanticStringTests
 		var result = semanticString.WithSuffix("-post");
 		Assert.AreEqual("test-post", result.ToString());
 	}
+	[TestMethod]
+	public void AsStringExtensionMethod()
+	{
+		string systemString = "test";
+		var semanticString = systemString.As<MySemanticString>();
+		Assert.AreEqual("test", semanticString.WeakString);
+	}
+
+	[TestMethod]
+	public void AsCharArrayExtensionMethod()
+	{
+		char[] charArray = ['t', 'e', 's', 't'];
+		var semanticString = charArray.As<MySemanticString>();
+		CollectionAssert.AreEqual(charArray, semanticString.ToCharArray());
+	}
+
+	[TestMethod]
+	public void AsReadOnlySpanExtensionMethod()
+	{
+		var span = "test".AsSpan();
+		var semanticString = span.As<MySemanticString>();
+		Assert.AreEqual("test", semanticString.WeakString);
+	}
+
+	[TestMethod]
+	public void ValidatedStringWithPrefix()
+	{
+		var semanticString = SemanticString.FromString<MyValidatedString>("http://example.com");
+		var result = semanticString.WithPrefix("https://");
+		Assert.AreEqual("https://http://example.com", result.ToString());
+	}
+
+	[TestMethod]
+	public void ValidatedStringWithSuffix()
+	{
+		var semanticString = SemanticString.FromString<MyValidatedString>("http://example.com");
+		var result = semanticString.WithSuffix("/index.html.com");
+		Assert.AreEqual("http://example.com/index.html.com", result.ToString());
+	}
+
+	[TestMethod]
+	public void ValidatedStringWithInvalidPrefix()
+	{
+		Assert.ThrowsException<FormatException>(() => SemanticString.FromString<MyValidatedString>("ftp://example.com"));
+	}
+
+	[TestMethod]
+	public void ValidatedStringWithInvalidSuffix()
+	{
+		Assert.ThrowsException<FormatException>(() => SemanticString.FromString<MyValidatedString>("http://example.org"));
+	}
 }
