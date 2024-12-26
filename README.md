@@ -8,8 +8,8 @@ The intention is to be able to provide usage context and validation to naked str
 ```csharp
 using ktsu.Semantics;
 
-// Create a strong type by deriving a record class from StrongStringAbstract<TDerived>:
-public record class MyStrongString : StrongStringAbstract<MyStrongString> { }
+// Create a strong type by deriving a record class from SemanticString<TDerived>:
+public record class MyStrongString : SemanticString<MyStrongString> { }
 
 public class MyDemoClass
 {
@@ -43,28 +43,28 @@ public class MyDemoClass
 ## Validation
 You can provide custom validators which will throw a `FormatException` at runtime to help you catch data errors.
 
-Implement the `ktsu.StrongStrings.IValidator` interface and provide it as a generic parameter when deriving your class:
+Implement the `ktsu.Semantics.ISemanticStringValidator` interface and provide it as a generic parameter when deriving your class:
 
 ```csharp
-public abstract class StartsWithHttp : IValidator
+public abstract class StartsWithHttp : ISemanticStringValidator
 {
-	public static bool IsValid(AnyStrongString? strongString)
+	public static bool IsValid(SemanticString? semanticString)
 	{
-		ArgumentNullException.ThrowIfNull(strongString);
+		ArgumentNullException.ThrowIfNull(semanticString);
 
-		return strongString.StartsWith("http", StringComparison.InvariantCultureIgnoreCase);
+		return semanticString.StartsWith("http", StringComparison.InvariantCultureIgnoreCase);
 	}
 }
 
-public abstract class EndsWithDotCom : IValidator
+public abstract class EndsWithDotCom : ISemanticStringValidator
 {
-	public static bool IsValid(AnyStrongString? strongString)
+	public static bool IsValid(SemanticString? semanticString)
 	{
-		ArgumentNullException.ThrowIfNull(strongString);
+		ArgumentNullException.ThrowIfNull(semanticString);
 
-		return strongString.EndsWith(".com", StringComparison.InvariantCultureIgnoreCase);
+		return semanticString.EndsWith(".com", StringComparison.InvariantCultureIgnoreCase);
 	}
 }
 
-public record class MyValidatedString : StrongStringAbstract<MyValidatedString, StartsWithHttp, EndsWithDotCom> { }
+public record class MyValidatedString : SemanticString<MyValidatedString, StartsWithHttp, EndsWithDotCom> { }
 ```
