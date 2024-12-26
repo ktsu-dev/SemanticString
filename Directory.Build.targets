@@ -1,22 +1,8 @@
 <Project>
   <PropertyGroup>
-    <DirectoryBuildTargetsFile>$(MSBuildThisFileFullPath)</DirectoryBuildTargetsFile>
-    <HasMain>false</HasMain>
-  </PropertyGroup>
+    <DirectoryBuildTargetsFilePath>$(MSBuildThisFileFullPath)</DirectoryBuildTargetsFilePath>
+    <DirectoryBuildTargetsFileName>$([System.IO.Path]::GetFileName($(DirectoryBuildTargetsFilePath)))</DirectoryBuildTargetsFileName>
 
-  <PropertyGroup>
-    <FileContents>$([System.IO.File]::ReadAllText('%(Compile.FullPath)')</FileContents>
-    <HasMain Condition="$(FileContents.Contains('static void Main'))">true</HasMain>
-    <HasMain Condition="$(FileContents.Contains('static int Main'))">true</HasMain>
-    <HasMain Condition="$(FileContents.Contains('static async Task Main'))">true</HasMain>
-    <HasMain Condition="$(FileContents.Contains('static async Task&lt;int&gt; Main'))">true</HasMain>
-    <FileContents></FileContents>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <OutputType Condition="$(OutputType) == 'Library' And $(HasMain)">Exe</OutputType>
-
-    <IsTestProject Condition="$(IsTestProject) == ''">false</IsTestProject>
     <IsTestProject Condition="$(MSBuildProjectName.EndsWith('.Test'))">true</IsTestProject>
 
     <IsPrerelease>false</IsPrerelease>
@@ -31,9 +17,6 @@
     <IsPrimaryProject>false</IsPrimaryProject>
     <IsPrimaryProject Condition="$(MSBuildProjectName) == $(PrimaryProjectName)">true</IsPrimaryProject>
 
-  </PropertyGroup>
-
-  <PropertyGroup>
     <IsPublishable Condition="$(IsExecutable)">true</IsPublishable>
     <IsPackable Condition="$(IsLibrary)">true</IsPackable>
     <AnalysisLevel Condition="$(IsTestProject) OR $(IsPrerelease)">latest-recommended</AnalysisLevel>
@@ -54,26 +37,25 @@
 
   <ItemGroup Condition="$(IsTestProject)">
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-    <ProjectReference Include="$(SolutionDirectory)\$(SolutionName)\$(SolutionName).csproj" />
+    <ProjectReference Include="$(SolutionDir)\$(SolutionName)\$(SolutionName).csproj" />
     <PackageReference Include="coverlet.collector" Version="6.0.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.7.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.7.0" />
+    <PackageReference Include="MSTest" Version="3.7.0" />
   </ItemGroup>
 
   <ItemGroup Condition="$(IsPrimaryProject)">
-    <None Condition="Exists('$(DirectoryBuildPropsFile)')" Include="$(DirectoryBuildPropsFile)" Pack="false" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
-    <None Condition="Exists('$(DirectoryBuildTargetsFile)')" Include="$(DirectoryBuildTargetsFile)" Pack="false" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
-    <None Condition="Exists('$(AuthorsFilePath)')" Include="$(AuthorsFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
-    <None Condition="Exists('$(DescriptionFilePath)')" Include="$(DescriptionFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
-    <None Condition="Exists('$(LicenseFilePath)')" Include="$(LicenseFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
-    <None Condition="Exists('$(ChangelogFilePath)')" Include="$(ChangelogFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
-    <None Condition="Exists('$(ReadmeFilePath)')" Include="$(ReadmeFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
-    <None Condition="Exists('$(VersionFilePath)')" Include="$(VersionFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
-    <None Condition="Exists('$(IconFilePath)')" Include="$(IconFilePath)" Pack="true" PackagePath="\" Link="_Build\%(RecursiveDir)%(Filename)%(Extension)"/>
+    <None Include="$(DirectoryBuildPropsFilePath)" Condition="Exists('$(DirectoryBuildPropsFilePath)')" Link="_Build\$(DirectoryBuildPropsFileName)" />
+    <None Include="$(DirectoryBuildTargetsFilePath)" Condition="Exists('$(DirectoryBuildTargetsFilePath)')" Link="_Build\$(DirectoryBuildTargetsFileName)" />
+
+    <None Include="$(AuthorsFilePath)" Condition="Exists('$(AuthorsFilePath)')" Pack="true" PackagePath="\" Link="_Data\$(AuthorsFileName)" />
+    <None Include="$(DescriptionFilePath)" Condition="Exists('$(DescriptionFilePath)')" Pack="true" PackagePath="\" Link="_Data\$(DescriptionFileName)" />
+    <None Include="$(LicenseFilePath)" Condition="Exists('$(LicenseFilePath)')" Pack="true" PackagePath="\" Link="_Data\$(LicenseFileName)" />
+    <None Include="$(ChangelogFilePath)" Condition="Exists('$(ChangelogFilePath)')" Pack="true" PackagePath="\" Link="_Data\$(ChangelogFileName)" />
+    <None Include="$(ReadmeFilePath)" Condition="Exists('$(ReadmeFilePath)')" Pack="true" PackagePath="\" Link="_Data\$(ReadmeFileName)" />
+    <None Include="$(VersionFilePath)" Condition="Exists('$(VersionFilePath)')" Pack="true" PackagePath="\" Link="_Data\$(VersionFileName)" />
+    <None Include="$(IconFilePath)" Condition="Exists('$(IconFilePath)')" Pack="true" PackagePath="\" Link="_Data\$(IconFileName)" />
   </ItemGroup>
 
-  <Target Name="GenerateMITLicense" BeforeTargets="BeforeBuild">
+  <Target Name="GenerateMITLicense" BeforeTargets="Build">
     <WriteLinesToFile
         File="$(LicenseFilePath)"
         Lines='MIT License

@@ -1,28 +1,35 @@
 <Project>
   <PropertyGroup>
-    <DirectoryBuildPropsFile>$(MSBuildThisFileFullPath)</DirectoryBuildPropsFile>
-
-    <LangVersion>latest</LangVersion>
-    
+    <DirectoryBuildPropsFilePath>$(MSBuildThisFileFullPath)</DirectoryBuildPropsFilePath>
+    <DirectoryBuildPropsFileName>$([System.IO.Path]::GetFileName($(DirectoryBuildPropsFilePath)))</DirectoryBuildPropsFileName>
 
     <!-- Path properties-->
-    <SolutionPath>$([System.IO.Path]::GetFullPath($([System.IO.Directory]::GetFiles($(MSBuildThisFileDirectory), "*.sln")[0])))</SolutionPath>
-    <SolutionName>$([System.IO.Path]::GetFileNameWithoutExtension($(SolutionPath)))</SolutionName>
-    <SolutionDirectory>$([System.IO.Path]::GetDirectoryName($(SolutionPath)))</SolutionDirectory>
     <PrimaryProjectName>$(SolutionName)</PrimaryProjectName>
     <PrimaryProjectFileName>$(PrimaryProjectName).csproj</PrimaryProjectFileName>
-    <PrimaryProjectPath>$(SolutionDirectory)\$(PrimaryProjectName)\$(PrimaryProjectFileName)</PrimaryProjectPath>
+    <PrimaryProjectPath>$(SolutionDir)\$(PrimaryProjectName)\$(PrimaryProjectFileName)</PrimaryProjectPath>
     <PrimaryProjectExists>false</PrimaryProjectExists>
     <PrimaryProjectExists Condition="Exists($(PrimaryProjectPath))">true</PrimaryProjectExists>
-    <VersionFilePath>$(SolutionDirectory)\VERSION</VersionFilePath>
-    <AuthorsFilePath>$(SolutionDirectory)\AUTHORS</AuthorsFilePath>
-    <DescriptionFilePath>$(SolutionDirectory)\DESCRIPTION</DescriptionFilePath>
-    <ChangelogFilePath>$(SolutionDirectory)\CHANGELOG.md</ChangelogFilePath>
-    <ReadmeFilePath>$(SolutionDirectory)\README.md</ReadmeFilePath>
-    <LicenseFilePath>$(SolutionDirectory)\LICENSE.md</LicenseFilePath>
-    <RunSettingsFilePath>$(SolutionDirectory)\.runsettings</RunSettingsFilePath>
-    <EditorConfigFilePath>$(SolutionDirectory)\.editorconfig</EditorConfigFilePath>
-    <IconFilePath>$(SolutionDirectory)\icon.png</IconFilePath>
+
+    <VersionFileName>VERSION</VersionFileName>
+    <VersionFilePath>$(SolutionDir)\$(VersionFileName)</VersionFilePath>
+
+    <AuthorsFileName>AUTHORS</AuthorsFileName>
+    <AuthorsFilePath>$(SolutionDir)\$(AuthorsFileName)</AuthorsFilePath>
+
+    <DescriptionFileName>DESCRIPTION</DescriptionFileName>
+    <DescriptionFilePath>$(SolutionDir)\$(DescriptionFileName)</DescriptionFilePath>
+
+    <ChangelogFileName>CHANGELOG</ChangelogFileName>
+    <ChangelogFilePath>$(SolutionDir)\$(ChangelogFileName)</ChangelogFilePath>
+
+    <ReadmeFileName>README.md</ReadmeFileName>
+    <ReadmeFilePath>$(SolutionDir)\$(ReadmeFileName)</ReadmeFilePath>
+
+    <LicenseFileName>LICENSE.md</LicenseFileName>
+    <LicenseFilePath>$(SolutionDir)\$(LicenseFileName)</LicenseFilePath>
+
+    <IconFileName>icon.png</IconFileName>
+    <IconFilePath>$(SolutionDir)\$(IconFileName)</IconFilePath>
 
     <!-- Namespace properties -->
     <Authors Condition="Exists($(AuthorsFilePath))">$([System.IO.File]::ReadAllText($(AuthorsFilePath)).Trim())</Authors>
@@ -32,14 +39,9 @@
     <RootNamespace>$(AuthorsNamespace).$(ProjectNamespace)</RootNamespace>
     <AssemblyName>$(RootNamespace)</AssemblyName>
 
-
-
-
-    
-
     <!-- Assembly validation properties -->
-    <!--<ApiCompatStrictMode>true</ApiCompatStrictMode>
-    <ApiCompatValidateAssemblies>true</ApiCompatValidateAssemblies>-->
+    <ApiCompatStrictMode>true</ApiCompatStrictMode>
+    <ApiCompatValidateAssemblies>true</ApiCompatValidateAssemblies>
 
     <!-- Assembly attribute properties -->
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -72,57 +74,140 @@
     <IsPackable>false</IsPackable>
 
     <!-- Package validation properties -->
-    <!--<ApiCompatEnableRuleAttributesMustMatch>true</ApiCompatEnableRuleAttributesMustMatch>-->
-    <!--<ApiCompatEnableRuleCannotChangeParameterName>true</ApiCompatEnableRuleCannotChangeParameterName>-->
+    <ApiCompatEnableRuleAttributesMustMatch>true</ApiCompatEnableRuleAttributesMustMatch>
+    <ApiCompatEnableRuleCannotChangeParameterName>true</ApiCompatEnableRuleCannotChangeParameterName>
     <!--<ApiCompatGenerateSuppressionFile>true</ApiCompatGenerateSuppressionFile>-->
     <!--<ApiCompatPermitUnnecessarySuppressions>true</ApiCompatPermitUnnecessarySuppressions>-->
     <!--<ApiCompatPreserveUnnecessarySuppressions>true</ApiCompatPreserveUnnecessarySuppressions>-->
-    <!--<ApiCompatRespectInternals>true</ApiCompatRespectInternals>-->
+    <ApiCompatRespectInternals>true</ApiCompatRespectInternals>
     <EnablePackageValidation>true</EnablePackageValidation>
     <EnableStrictModeForBaselineValidation>true</EnableStrictModeForBaselineValidation>
-    <!--<EnableStrictModeForCompatibleFrameworksInPackage>true</EnableStrictModeForCompatibleFrameworksInPackage>-->
-    <!--<EnableStrictModeForCompatibleTfms>true</EnableStrictModeForCompatibleTfms>-->
+    <EnableStrictModeForCompatibleFrameworksInPackage>true</EnableStrictModeForCompatibleFrameworksInPackage>
+    <EnableStrictModeForCompatibleTfms>true</EnableStrictModeForCompatibleTfms>
+
+    <!-- Publish-related properties -->
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <ErrorOnDuplicatePublishOutputFiles>true</ErrorOnDuplicatePublishOutputFiles>
+    <IsPublishable>false</IsPublishable>
+    <ProduceReferenceAssemblyInOutDir>true</ProduceReferenceAssemblyInOutDir>
+    <PublishDocumentationFile>true</PublishDocumentationFile>
+    <PublishDocumentationFiles>true</PublishDocumentationFiles>
+    <PublishReferencesDocumentationFiles>true</PublishReferencesDocumentationFiles>
+    <PublishRelease>true</PublishRelease>
+    <PublishSelfContained>true</PublishSelfContained>
+    <RollForward>LatestMinor</RollForward>
+    <RuntimeFrameworkVersion>9.0.0</RuntimeFrameworkVersion>
+    <!-- <RuntimeIdentifier>win-x64</RuntimeIdentifier> -->
+    <!-- <RuntimeIdentifiers>win-x64;osx-x64;linux-x64</RuntimeIdentifiers> -->
+    <!-- <SatelliteResourceLanguages>en-US;de-DE</SatelliteResourceLanguages> -->
+    <!-- <SelfContained>true</SelfContained> -->
+    <!-- <UseAppHost>false</UseAppHost> -->
+
+    <!-- Build-related properties -->
+    <ContinuousIntegrationBuild>false</ContinuousIntegrationBuild>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true' Or '$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
+    <CopyDebugSymbolFilesFromPackages>true</CopyDebugSymbolFilesFromPackages>
+    <CopyDocumentationFilesFromPackages>true</CopyDocumentationFilesFromPackages>
+    <DisableImplicitFrameworkDefines>false</DisableImplicitFrameworkDefines>
+    <!-- <DocumentationFile>path/to/file.xml</DocumentationFile> -->
+    <!-- <EmbeddedResourceUseDependentUponConvention>true</EmbeddedResourceUseDependentUponConvention> -->
+    <EnablePreviewFeatures>false</EnablePreviewFeatures>
+    <!-- <EnableWindowsTargeting>true</EnableWindowsTargeting> -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateRequiresPreviewFeaturesAttribute>false</GenerateRequiresPreviewFeaturesAttribute>
+    <OptimizeImplicitlyTriggeredBuild>false</OptimizeImplicitlyTriggeredBuild>
+    <DisableRuntimeMarshalling>false</DisableRuntimeMarshalling>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <!-- Default item inclusion properties -->
+    <!-- <DefaultItemExcludes>$(DefaultItemExcludes);**/*.myextension</DefaultItemExcludes> -->
+    <!-- <DefaultItemExcludesInProjectFolder>$(DefaultItemExcludesInProjectFolder);**/myprefix*/**</DefaultItemExcludesInProjectFolder> -->
+    <EnableDefaultItems>true</EnableDefaultItems>
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>true</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultNoneItems>true</EnableDefaultNoneItems>
+
+    <!-- Code analysis properties -->
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <!-- Runtime configuration properties -->
+    <!-- <AutoreleasePoolSupport>true</AutoreleasePoolSupport> -->
+    <!-- <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection> -->
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <!-- <PredefinedCulturesOnly>false</PredefinedCulturesOnly> -->
+    <!-- <RetainVMGarbageCollection>true</RetainVMGarbageCollection> -->
+    <!-- <ServerGarbageCollection>true</ServerGarbageCollection> -->
+    <!-- <ThreadPoolMaxThreads>20</ThreadPoolMaxThreads> -->
+    <!-- <ThreadPoolMinThreads>4</ThreadPoolMinThreads> -->
+    <!-- <TieredCompilation>false</TieredCompilation> -->
+    <!-- <TieredCompilationQuickJit>false</TieredCompilationQuickJit> -->
+    <!-- <TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops> -->
+    <!-- <TieredPGO>true</TieredPGO> -->
+    <!-- <UseWindowsThreadPool>true</UseWindowsThreadPool> -->
+
+    <!-- Reference-related properties -->
+    <!-- <AssetTargetFallback>net461</AssetTargetFallback> -->
+    <!-- <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences> -->
+    <!-- <DisableTransitiveFrameworkReferenceDownloads>true</DisableTransitiveFrameworkReferenceDownloads> -->
+    <!-- <DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences> -->
+    
+    <!-- Restore-related properties -->
+    <!-- <RestoreIgnoreFailedSource>true</RestoreIgnoreFailedSource> -->
+    <!-- <UseMauiEssentials>true</UseMauiEssentials> -->
+    <!-- <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained> -->
+    <!-- <WindowsSdkPackageVersion>10.0.19041.18</WindowsSdkPackageVersion> -->
+
+    <!-- Run-related properties -->
+    <!-- <RunArguments>-mode dryrun</RunArguments> -->
+    <!-- <RunWorkingDirectory>c:\temp</RunWorkingDirectory> -->
+
+    <!-- SDK-related properties -->
+    <!-- <SdkAnalysisLevel>8.0.400</SdkAnalysisLevel> -->
+
+    <!-- Test project–related properties -->
+    <IsTestProject>false</IsTestProject>
+    <!-- <IsTestingPlatformApplication>false</IsTestingPlatformApplication> -->
+    <!-- <EnableAspireTesting>false</EnableAspireTesting> -->
+    <!-- <EnablePlaywright>false</EnablePlaywright> -->
+    <EnableMSTestRunner>true</EnableMSTestRunner>
+    <EnableNUnitRunner>false</EnableNUnitRunner>
+    <!-- <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint> -->
+    <!-- <TestingPlatformCaptureOutput>false</TestingPlatformCaptureOutput> -->
+    <!-- <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport> -->
+    <!-- <TestingPlatformShowTestsFailure>false</TestingPlatformShowTestsFailure> -->
+    <TestingExtensionsProfile>Default</TestingExtensionsProfile>
+    <UseVSTest>true</UseVSTest>
+
+    <!-- Hosting-related properties -->
+    <!-- <AppHostDotNetSearch>Global</AppHostDotNetSearch> -->
+    <!-- <AppHostRelativeDotNet>./relative/path/to/runtime</AppHostRelativeDotNet> -->
+    <!-- <EnableComHosting>True</EnableComHosting> -->
+    <!-- <EnableDynamicLoading>true</EnableDynamicLoading> -->
+
+    <!-- Generated file properties -->
+    <!-- <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports> -->
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- C# Compiler Options to report errors and warnings -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>CA1724;CA1034;CA1000;CA2260;CA1515;</NoWarn>
     <!-- CA1724: Type names should not match namespaces -->
     <!-- CA1034: Nested types should not be visible -->
     <!-- CA1000: Do not declare static members on generic types -->
     <!-- CA2260: Implement ISerializable correctly -->
     <!-- CA1812: Avoid uninstantiated internal classes -->
-    <!-- CA1515: Override methods should call base methods -->
+    <!-- CA1515: Override methods should call base methods -->    
 
-    <!-- Publish-related properties -->
-    <!--<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>-->
-    <!--<AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>-->
-    <!--<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
-    <!--<ErrorOnDuplicatePublishOutputFiles>true</ErrorOnDuplicatePublishOutputFiles>-->
-    <IsPublishable>false</IsPublishable>
-    
-
-    <!-- Runtime configuration properties -->
-    <InvariantGlobalization>true</InvariantGlobalization>
-
-  
-    
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    
-    <NeutralLanguage>en-US</NeutralLanguage>
-
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningLevel>9999</WarningLevel>
-    
-
-
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <!--<AnalysisMode>All</AnalysisMode>-->
-    <AnalysisLevel>latest-all</AnalysisLevel>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <!--<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>-->
-    
+    <!-- JsonSerializer properties -->
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 
-    
-
   </PropertyGroup>
+
 </Project>
