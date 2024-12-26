@@ -314,3 +314,18 @@ public abstract record SemanticString<TDerived, TValidator1, TValidator2, TValid
 {
 	public override bool IsValid() => base.IsValid() && Validate<TValidator1, TValidator2, TValidator3, TValidator4, TValidator5>(value: this);
 }
+
+public static class SemanticStringExtensions
+{
+	public static TDerived As<TDerived>(this string? value)
+		where TDerived : SemanticString<TDerived>
+		=> SemanticString.FromString<TDerived>(value: value);
+
+	public static TDerived As<TDerived>(this char[]? value)
+		where TDerived : SemanticString<TDerived>
+		=> SemanticString.FromCharArray<TDerived>(value: value);
+
+	public static TDerived As<TDerived>(this ReadOnlySpan<char> value)
+		where TDerived : SemanticString<TDerived>
+		=> SemanticString.FromReadOnlySpan<TDerived>(value: value);
+}
