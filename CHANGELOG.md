@@ -1,20 +1,8 @@
-## v1.3.5-pre.1 (patch)
-
-Changes since v1.3.4:
-
-- Add automation scripts for metadata generation and project management ([@matt-edmondson](https://github.com/matt-edmondson))
-
 ## v1.3.4 (patch)
 
 Changes since v1.3.4-pre.28:
 
 - Add automation scripts for metadata generation and project management ([@matt-edmondson](https://github.com/matt-edmondson))
-
-## v1.3.1-pre.1 (patch)
-
-Changes since v1.3.0:
-
-- Renamed metadata files ([@matt-edmondson](https://github.com/matt-edmondson))
 
 ## v1.3.0 (minor)
 
