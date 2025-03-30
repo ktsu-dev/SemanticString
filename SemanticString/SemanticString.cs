@@ -113,6 +113,7 @@ public abstract record SemanticString : ISemanticString
 
 	public string PadRight(int totalWidth, char paddingChar) => WeakString.PadRight(totalWidth: totalWidth, paddingChar: paddingChar);
 
+	[SuppressMessage("Style", "IDE0057:Use range operator", Justification = "I'd rather wrap the class 1:1 than reimplement it")]
 	public string Remove(int startIndex) => WeakString.Remove(startIndex: startIndex);
 
 	public string Remove(int startIndex, int count) => WeakString.Remove(startIndex: startIndex, count: count);
@@ -277,6 +278,7 @@ public abstract record SemanticString<TDerived, TValidator> : SemanticString<TDe
 	public override bool IsValid() => base.IsValid() && Validate<TValidator, NoValidator, NoValidator, NoValidator, NoValidator>(value: this);
 }
 
+[SuppressMessage("Design", "CA1005:Avoid excessive parameters on generic types", Justification = "These are optional overloads")]
 public abstract record SemanticString<TDerived, TValidator1, TValidator2> : SemanticString<TDerived>
 	where TDerived : SemanticString<TDerived, TValidator1, TValidator2>
 	where TValidator1 : ISemanticStringValidator
@@ -285,6 +287,7 @@ public abstract record SemanticString<TDerived, TValidator1, TValidator2> : Sema
 	public override bool IsValid() => base.IsValid() && Validate<TValidator1, TValidator2, NoValidator, NoValidator, NoValidator>(value: this);
 }
 
+[SuppressMessage("Design", "CA1005:Avoid excessive parameters on generic types", Justification = "These are optional overloads")]
 public abstract record SemanticString<TDerived, TValidator1, TValidator2, TValidator3> : SemanticString<TDerived>
 	where TDerived : SemanticString<TDerived, TValidator1, TValidator2, TValidator3>
 	where TValidator1 : ISemanticStringValidator
@@ -294,6 +297,7 @@ public abstract record SemanticString<TDerived, TValidator1, TValidator2, TValid
 	public override bool IsValid() => base.IsValid() && Validate<TValidator1, TValidator2, TValidator3, NoValidator, NoValidator>(value: this);
 }
 
+[SuppressMessage("Design", "CA1005:Avoid excessive parameters on generic types", Justification = "These are optional overloads")]
 public abstract record SemanticString<TDerived, TValidator1, TValidator2, TValidator3, TValidator4> : SemanticString<TDerived>
 	where TDerived : SemanticString<TDerived, TValidator1, TValidator2, TValidator3, TValidator4>
 	where TValidator1 : ISemanticStringValidator
@@ -304,6 +308,7 @@ public abstract record SemanticString<TDerived, TValidator1, TValidator2, TValid
 	public override bool IsValid() => base.IsValid() && Validate<TValidator1, TValidator2, TValidator3, TValidator4, NoValidator>(value: this);
 }
 
+[SuppressMessage("Design", "CA1005:Avoid excessive parameters on generic types", Justification = "These are optional overloads")]
 public abstract record SemanticString<TDerived, TValidator1, TValidator2, TValidator3, TValidator4, TValidator5> : SemanticString<TDerived>
 	where TDerived : SemanticString<TDerived, TValidator1, TValidator2, TValidator3, TValidator4, TValidator5>
 	where TValidator1 : ISemanticStringValidator

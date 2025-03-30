@@ -4,7 +4,7 @@ namespace ktsu.Semantics;
 
 public interface ISemanticStringValidator
 {
-	static abstract bool IsValid(ISemanticString? semanticString);
+	public static abstract bool IsValid(ISemanticString? semanticString);
 }
 
 public abstract record NoValidator : ISemanticStringValidator
