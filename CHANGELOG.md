@@ -4,6 +4,7 @@ Changes since v1.3.0:
 
 - Add automation scripts for metadata generation and project management ([@matt-edmondson](https://github.com/matt-edmondson))
 - Add LICENSE template ([@matt-edmondson](https://github.com/matt-edmondson))
+- Fix analyzer violations ([@matt-edmondson](https://github.com/matt-edmondson))
 - Renamed metadata files ([@matt-edmondson](https://github.com/matt-edmondson))
 
 ## v1.3.4 (patch)
