@@ -1,0 +1,91 @@
+namespace ktsu.Semantics.Test;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+[TestClass]
+public class AdvancedAttributeValidationTests
+{
+	[TestMethod]
+	public void MultipleValidationAttributes_AllValid_ReturnsTrue()
+	{
+		// Arrange
+		var testString = SemanticString.FromString<TestStringWithMultipleValidations>("prefix-abc123-suffix");
+
+		// Act & Assert
+		Assert.IsTrue(testString.IsValid());
+	}
+
+	[TestMethod]
+	public void MultipleValidationAttributes_OneInvalid_ThrowsFormatException()
+	{
+		// Act & Assert
+		Assert.ThrowsException<FormatException>(() =>
+			SemanticString.FromString<TestStringWithMultipleValidations>("prefix-123abc-suffix"));
+	}
+
+	[TestMethod]
+	public void ComplexRegexPattern_ValidInput_ReturnsTrue()
+	{
+		// Arrange
+		var testString = SemanticString.FromString<TestStringWithComplexRegex>("user@example.com");
+
+		// Act & Assert
+		Assert.IsTrue(testString.IsValid());
+	}
+
+	[TestMethod]
+	public void ComplexRegexPattern_InvalidInput_ThrowsFormatException()
+	{
+		// Act & Assert
+		Assert.ThrowsException<FormatException>(() =>
+			SemanticString.FromString<TestStringWithComplexRegex>("invalid-email"));
+	}
+
+	[TestMethod]
+	public void CombinedValidateAnyWithMultipleAttributes_OneValid_ReturnsTrue()
+	{
+		// These strings should pass with ValidateAny attribute
+		var prefixOnlyString = SemanticString.FromString<TestStringWithAnyOfThreeValidations>("prefix-content");
+		var containsOnlyString = SemanticString.FromString<TestStringWithAnyOfThreeValidations>("has-special-content");
+		var suffixOnlyString = SemanticString.FromString<TestStringWithAnyOfThreeValidations>("content-suffix");
+
+		// All should be valid as each satisfies at least one condition
+		Assert.IsTrue(prefixOnlyString.IsValid());
+		Assert.IsTrue(containsOnlyString.IsValid());
+		Assert.IsTrue(suffixOnlyString.IsValid());
+	}
+
+	[TestMethod]
+	public void CombinedValidateAnyWithMultipleAttributes_NoneValid_ThrowsFormatException()
+	{
+		// Act & Assert
+		Assert.ThrowsException<FormatException>(() =>
+			SemanticString.FromString<TestStringWithAnyOfThreeValidations>("regular-content"));
+	}
+
+	[TestMethod]
+	public void EmptyString_WithValidationAttributes_ThrowsFormatException()
+	{
+		// Act & Assert - Empty string shouldn't match prefix/suffix requirements
+		Assert.ThrowsException<FormatException>(() =>
+			SemanticString.FromString<TestStringWithPrefix>(""));
+	}
+}
+
+// Test classes for the advanced validation tests
+[ValidateAll]
+[StartsWith("prefix-")]
+[EndsWith("-suffix")]
+[RegexMatch("^prefix-[a-z]+[0-9]+-suffix$")]
+public record TestStringWithMultipleValidations : SemanticString<TestStringWithMultipleValidations> { }
+
+[RegexMatch(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]
+public record TestStringWithComplexRegex : SemanticString<TestStringWithComplexRegex> { }
+
+[ValidateAny]
+[StartsWith("prefix-")]
+[Contains("special")]
+[EndsWith("-suffix")]
+public record TestStringWithAnyOfThreeValidations : SemanticString<TestStringWithAnyOfThreeValidations> { }
+
+// Reusing TestStringWithPrefix from AttributeValidationTests.cs

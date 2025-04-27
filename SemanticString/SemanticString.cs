@@ -190,9 +190,16 @@ public abstract record SemanticString : ISemanticString
 
 	private static bool IsEmpty(ISemanticString? semanticString) => semanticString?.Length == 0;
 
-	public virtual bool IsValid() => IsValid(semanticString: this);
+	public virtual bool IsValid() => IsValid(semanticString: this) && ValidateAttributes();
 
 	private static bool IsValid(ISemanticString? semanticString) => semanticString?.WeakString is not null;
+
+	/// <summary>
+	/// Validates that this SemanticString instance meets the criteria defined by
+	/// the attributes applied to its type.
+	/// </summary>
+	/// <returns>True if the string passes all attribute validations, false otherwise</returns>
+	public virtual bool ValidateAttributes() => AttributeValidation.ValidateAttributes(this, GetType());
 
 	// IComparable implementation
 	public static bool operator <(SemanticString? left, SemanticString? right) => left is null ? right is not null : left.CompareTo(value: (string)right) < 0;
