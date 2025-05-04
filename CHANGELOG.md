@@ -1,3 +1,9 @@
+## v1.4.1 (patch)
+
+Changes since v1.4.0:
+
+- Update project SDK references for SemanticString and its tests to ktsu.Sdk.Lib/1.8.0 and ktsu.Sdk.Test/1.8.0 respectively. ([@matt-edmondson](https://github.com/matt-edmondson))
+
 ## v1.4.0 (minor)
 
 Changes since v1.3.0:
