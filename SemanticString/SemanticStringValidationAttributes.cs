@@ -1,3 +1,7 @@
+// Copyright (c) ktsu.dev
+// All rights reserved.
+// Licensed under the MIT license.
+
 namespace ktsu.Semantics;
 
 using System;
@@ -189,7 +193,7 @@ internal static class AttributeValidation
 		}
 
 		// Check if ValidateAny is specified
-		bool validateAny = type.GetCustomAttributes<ValidateAnyAttribute>(true).Any();
+		var validateAny = type.GetCustomAttributes<ValidateAnyAttribute>(true).Any();
 
 		// If ValidateAny is specified, any validation attribute can pass
 		if (validateAny)

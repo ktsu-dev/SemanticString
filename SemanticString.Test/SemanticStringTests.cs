@@ -1,3 +1,7 @@
+// Copyright (c) ktsu.dev
+// All rights reserved.
+// Licensed under the MIT license.
+
 namespace ktsu.Semantics.Test;
 
 [TestClass]
@@ -34,7 +38,7 @@ public class SemanticStringTests
 	[TestMethod]
 	public void ExplicitCastFromString()
 	{
-		string systemString = "test";
+		var systemString = "test";
 		var semanticString = (MySemanticString)systemString;
 		Assert.AreEqual("test", semanticString.WeakString);
 	}
@@ -52,7 +56,7 @@ public class SemanticStringTests
 	public void ToCharArrayMethod()
 	{
 		var semanticString = SemanticString.FromString<MySemanticString>("test");
-		char[] chars = semanticString.ToCharArray();
+		var chars = semanticString.ToCharArray();
 		CollectionAssert.AreEqual(TestCharArray, chars);
 	}
 
@@ -101,7 +105,7 @@ public class SemanticStringTests
 	[TestMethod]
 	public void AsStringExtensionMethod()
 	{
-		string systemString = "test";
+		var systemString = "test";
 		var semanticString = systemString.As<MySemanticString>();
 		Assert.AreEqual("test", semanticString.WeakString);
 	}
