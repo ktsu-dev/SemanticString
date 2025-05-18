@@ -1,6 +1,6 @@
 MIT License
 
-https://github.com/ktsu-dev/ktsu-dev/SemanticString
+https://github.com/ktsu-dev/SemanticString
 
 Copyright (c) 2023-2025 ktsu-dev
 
