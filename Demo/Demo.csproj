@@ -1,9 +1,2 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SemanticString\SemanticString.csproj" />
-  </ItemGroup>
+<Project Sdk="ktsu.Sdk.Cli/1.17.1">
 </Project>
