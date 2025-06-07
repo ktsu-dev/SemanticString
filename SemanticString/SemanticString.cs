@@ -229,7 +229,7 @@ public abstract record SemanticString : ISemanticString
 	public static TDest FromString<TDest>(string? value)
 		where TDest : SemanticString
 	{
-		var newInstance = FromStringInternal<TDest>(value: value);
+		TDest newInstance = FromStringInternal<TDest>(value: value);
 		return PerformValidation(value: newInstance);
 	}
 
@@ -238,8 +238,8 @@ public abstract record SemanticString : ISemanticString
 	{
 		ArgumentNullException.ThrowIfNull(value);
 
-		var typeOfTDest = typeof(TDest);
-		var newInstance = (TDest)Activator.CreateInstance(type: typeOfTDest)!;
+		Type typeOfTDest = typeof(TDest);
+		TDest newInstance = (TDest)Activator.CreateInstance(type: typeOfTDest)!;
 		typeOfTDest.GetProperty(name: nameof(WeakString))!.SetValue(obj: newInstance, value: newInstance.MakeCanonical(value));
 		return newInstance;
 	}

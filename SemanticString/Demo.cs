@@ -54,11 +54,11 @@ public static class DemoProgram
 		{
 			Console.WriteLine("\nTesting URL validation:");
 			Console.WriteLine("  Valid: 'https://example.com'");
-			var validUrl = SemanticString.FromString<UrlString>("https://example.com");
+			UrlString validUrl = SemanticString.FromString<UrlString>("https://example.com");
 			Console.WriteLine("  Result: ✓ Valid");
 
 			Console.WriteLine("  Invalid: 'ftp://example.com'");
-			var invalidUrl = SemanticString.FromString<UrlString>("ftp://example.com");
+			UrlString invalidUrl = SemanticString.FromString<UrlString>("ftp://example.com");
 			Console.WriteLine("  Result: ✓ Valid (shouldn't reach here)");
 		}
 		catch (FormatException)
@@ -71,11 +71,11 @@ public static class DemoProgram
 		{
 			Console.WriteLine("\nTesting ValidateAny with multiple domains:");
 			Console.WriteLine("  Valid: 'example.org'");
-			var validOrg = SemanticString.FromString<TopLevelDomain>("example.org");
+			TopLevelDomain validOrg = SemanticString.FromString<TopLevelDomain>("example.org");
 			Console.WriteLine("  Result: ✓ Valid");
 
 			Console.WriteLine("  Invalid: 'example.io'");
-			var invalidDomain = SemanticString.FromString<TopLevelDomain>("example.io");
+			TopLevelDomain invalidDomain = SemanticString.FromString<TopLevelDomain>("example.io");
 			Console.WriteLine("  Result: ✓ Valid (shouldn't reach here)");
 		}
 		catch (FormatException)
@@ -88,11 +88,11 @@ public static class DemoProgram
 		{
 			Console.WriteLine("\nTesting Email validation with regex:");
 			Console.WriteLine("  Valid: 'user@example.com'");
-			var validEmail = SemanticString.FromString<EmailAddress>("user@example.com");
+			EmailAddress validEmail = SemanticString.FromString<EmailAddress>("user@example.com");
 			Console.WriteLine("  Result: ✓ Valid");
 
 			Console.WriteLine("  Invalid: 'not-an-email'");
-			var invalidEmail = SemanticString.FromString<EmailAddress>("not-an-email");
+			EmailAddress invalidEmail = SemanticString.FromString<EmailAddress>("not-an-email");
 			Console.WriteLine("  Result: ✓ Valid (shouldn't reach here)");
 		}
 		catch (FormatException)

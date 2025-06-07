@@ -1,0 +1,64 @@
+---
+description: AI rules derived by SpecStory from the project AI interaction history
+globs: *
+---
+
+## Headers
+
+This file defines all project rules, coding standards, workflow guidelines, references, documentation structures, and best practices for the AI coding assistant. It is a living document that evolves with the project.
+
+## TECH STACK
+
+*   .NET (versions: net7.0, net8.0, net9.0)
+*   Custom SDKs: `ktsu.Sdk.Lib`, `ktsu.Sdk.Test`
+*   NuGet Package: `ktsu.SemanticString`
+*   Spectre.Console.Analyzer (>= 0.50.0)
+*   TestableIO.System.IO.Abstractions.Wrappers
+*   TestableIO.System.IO.Abstractions.Wrappers (>= 20.0.15)
+*   ktsu.AppDataStorage 1.15.4
+
+## PROJECT DOCUMENTATION & CONTEXT SYSTEM
+
+*   README.md
+*   VERSION.md
+*   CHANGELOG.md
+
+## CODING STANDARDS
+
+### General
+
+*   Follow established .NET coding conventions.
+*   Prioritize code readability and maintainability.
+*   Use strong typing and validation for strings via the `SemanticString` library.
+
+### SemanticString Specific
+
+*   When migrating from `StrongStrings`, use the compatibility layer:
+    ```csharp
+    using ktsu.StrongStrings.Aliases;
+    ```
+*   Choose between attribute-based or interface-based validation approaches based on project needs.
+
+## VALIDATION RULES
+
+*   Plan string validation needs early in the development process.
+*   Utilize attribute-based or interface-based validation approaches as appropriate.
+
+## DEBUGGING
+
+*   Ensure the Demo project builds and runs correctly.
+*   Fix any build errors before proceeding.
+
+## TESTING
+
+*   Run all tests to ensure functionality.
+*   Create proof-of-concept implementations to test basic and validation scenarios.
+*   Benchmark performance with specific usage patterns.
+
+## WORKFLOW & RELEASE RULES
+
+*   Ensure all tests pass before releasing any new version.
+
+## REFERENCES
+
+*   NuGet: `Install-Package ktsu.SemanticString` or `dotnet add package ktsu.SemanticString`

@@ -13,7 +13,7 @@ public class AttributeValidationTests
 	public void StartsWith_ValidString_ReturnsTrue()
 	{
 		// Arrange
-		var testString = SemanticString.FromString<TestStringWithPrefix>("PrefixTestString");
+		TestStringWithPrefix testString = SemanticString.FromString<TestStringWithPrefix>("PrefixTestString");
 
 		// Act & Assert
 		Assert.IsTrue(testString.IsValid());
@@ -30,7 +30,7 @@ public class AttributeValidationTests
 	public void EndsWith_ValidString_ReturnsTrue()
 	{
 		// Arrange
-		var testString = SemanticString.FromString<TestStringWithSuffix>("TestStringSuffix");
+		TestStringWithSuffix testString = SemanticString.FromString<TestStringWithSuffix>("TestStringSuffix");
 
 		// Act & Assert
 		Assert.IsTrue(testString.IsValid());
@@ -47,7 +47,7 @@ public class AttributeValidationTests
 	public void Contains_ValidString_ReturnsTrue()
 	{
 		// Arrange
-		var testString = SemanticString.FromString<TestStringWithSubstring>("Test_Contains_String");
+		TestStringWithSubstring testString = SemanticString.FromString<TestStringWithSubstring>("Test_Contains_String");
 
 		// Act & Assert
 		Assert.IsTrue(testString.IsValid());
@@ -64,7 +64,7 @@ public class AttributeValidationTests
 	public void PrefixAndSuffix_ValidString_ReturnsTrue()
 	{
 		// Arrange
-		var testString = SemanticString.FromString<TestStringWithPrefixAndSuffix>("PrefixTestSuffix");
+		TestStringWithPrefixAndSuffix testString = SemanticString.FromString<TestStringWithPrefixAndSuffix>("PrefixTestSuffix");
 
 		// Act & Assert
 		Assert.IsTrue(testString.IsValid());
@@ -88,7 +88,7 @@ public class AttributeValidationTests
 	public void RegexMatch_ValidString_ReturnsTrue()
 	{
 		// Arrange
-		var testString = SemanticString.FromString<TestStringWithRegex>("abc123");
+		TestStringWithRegex testString = SemanticString.FromString<TestStringWithRegex>("abc123");
 
 		// Act & Assert
 		Assert.IsTrue(testString.IsValid());
@@ -105,7 +105,7 @@ public class AttributeValidationTests
 	public void ValidateAny_OneValidAttribute_ReturnsTrue()
 	{
 		// Arrange
-		var testString = SemanticString.FromString<TestStringWithAnyValidation>("PrefixTest");
+		TestStringWithAnyValidation testString = SemanticString.FromString<TestStringWithAnyValidation>("PrefixTest");
 
 		// Act & Assert
 		Assert.IsTrue(testString.IsValid());
@@ -115,7 +115,7 @@ public class AttributeValidationTests
 	public void ValidateAny_AnotherValidAttribute_ReturnsTrue()
 	{
 		// Arrange
-		var testString = SemanticString.FromString<TestStringWithAnyValidation>("TestSuffix");
+		TestStringWithAnyValidation testString = SemanticString.FromString<TestStringWithAnyValidation>("TestSuffix");
 
 		// Act & Assert
 		Assert.IsTrue(testString.IsValid());
@@ -132,7 +132,7 @@ public class AttributeValidationTests
 	public void ValidateAll_AllValidAttributes_ReturnsTrue()
 	{
 		// Arrange
-		var testString = SemanticString.FromString<TestStringWithAllValidation>("PrefixTestSuffix");
+		TestStringWithAllValidation testString = SemanticString.FromString<TestStringWithAllValidation>("PrefixTestSuffix");
 
 		// Act & Assert
 		Assert.IsTrue(testString.IsValid());

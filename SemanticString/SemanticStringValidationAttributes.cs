@@ -184,7 +184,7 @@ internal static class AttributeValidation
 	public static bool ValidateAttributes(SemanticString semanticString, Type type)
 	{
 		// Get all validation attributes defined on the type
-		var validationAttributes = type.GetCustomAttributes<SemanticStringValidationAttribute>(true).ToList();
+		List<SemanticStringValidationAttribute> validationAttributes = [.. type.GetCustomAttributes<SemanticStringValidationAttribute>(true)];
 
 		// If no validation attributes, the string is valid
 		if (validationAttributes.Count == 0)
@@ -193,7 +193,7 @@ internal static class AttributeValidation
 		}
 
 		// Check if ValidateAny is specified
-		var validateAny = type.GetCustomAttributes<ValidateAnyAttribute>(true).Any();
+		bool validateAny = type.GetCustomAttributes<ValidateAnyAttribute>(true).Any();
 
 		// If ValidateAny is specified, any validation attribute can pass
 		if (validateAny)

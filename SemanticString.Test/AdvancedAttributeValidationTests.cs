@@ -13,7 +13,7 @@ public class AdvancedAttributeValidationTests
 	public void MultipleValidationAttributes_AllValid_ReturnsTrue()
 	{
 		// Arrange
-		var testString = SemanticString.FromString<TestStringWithMultipleValidations>("prefix-abc123-suffix");
+		TestStringWithMultipleValidations testString = SemanticString.FromString<TestStringWithMultipleValidations>("prefix-abc123-suffix");
 
 		// Act & Assert
 		Assert.IsTrue(testString.IsValid());
@@ -31,7 +31,7 @@ public class AdvancedAttributeValidationTests
 	public void ComplexRegexPattern_ValidInput_ReturnsTrue()
 	{
 		// Arrange
-		var testString = SemanticString.FromString<TestStringWithComplexRegex>("user@example.com");
+		TestStringWithComplexRegex testString = SemanticString.FromString<TestStringWithComplexRegex>("user@example.com");
 
 		// Act & Assert
 		Assert.IsTrue(testString.IsValid());
@@ -49,9 +49,9 @@ public class AdvancedAttributeValidationTests
 	public void CombinedValidateAnyWithMultipleAttributes_OneValid_ReturnsTrue()
 	{
 		// These strings should pass with ValidateAny attribute
-		var prefixOnlyString = SemanticString.FromString<TestStringWithAnyOfThreeValidations>("prefix-content");
-		var containsOnlyString = SemanticString.FromString<TestStringWithAnyOfThreeValidations>("has-special-content");
-		var suffixOnlyString = SemanticString.FromString<TestStringWithAnyOfThreeValidations>("content-suffix");
+		TestStringWithAnyOfThreeValidations prefixOnlyString = SemanticString.FromString<TestStringWithAnyOfThreeValidations>("prefix-content");
+		TestStringWithAnyOfThreeValidations containsOnlyString = SemanticString.FromString<TestStringWithAnyOfThreeValidations>("has-special-content");
+		TestStringWithAnyOfThreeValidations suffixOnlyString = SemanticString.FromString<TestStringWithAnyOfThreeValidations>("content-suffix");
 
 		// All should be valid as each satisfies at least one condition
 		Assert.IsTrue(prefixOnlyString.IsValid());

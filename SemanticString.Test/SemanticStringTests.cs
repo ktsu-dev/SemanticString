@@ -30,7 +30,7 @@ public class SemanticStringTests
 	[TestMethod]
 	public void ImplicitCastToString()
 	{
-		var semanticString = SemanticString.FromString<MySemanticString>("test");
+		MySemanticString semanticString = SemanticString.FromString<MySemanticString>("test");
 		string systemString = semanticString;
 		Assert.AreEqual("test", systemString);
 	}
@@ -38,15 +38,15 @@ public class SemanticStringTests
 	[TestMethod]
 	public void ExplicitCastFromString()
 	{
-		var systemString = "test";
-		var semanticString = (MySemanticString)systemString;
+		string systemString = "test";
+		MySemanticString semanticString = (MySemanticString)systemString;
 		Assert.AreEqual("test", semanticString.WeakString);
 	}
 
 	[TestMethod]
 	public void ToStringMethod()
 	{
-		var semanticString = SemanticString.FromString<MySemanticString>("test");
+		MySemanticString semanticString = SemanticString.FromString<MySemanticString>("test");
 		Assert.AreEqual("test", semanticString.ToString());
 	}
 
@@ -55,29 +55,29 @@ public class SemanticStringTests
 	[TestMethod]
 	public void ToCharArrayMethod()
 	{
-		var semanticString = SemanticString.FromString<MySemanticString>("test");
-		var chars = semanticString.ToCharArray();
+		MySemanticString semanticString = SemanticString.FromString<MySemanticString>("test");
+		char[] chars = semanticString.ToCharArray();
 		CollectionAssert.AreEqual(TestCharArray, chars);
 	}
 
 	[TestMethod]
 	public void IsEmptyMethod()
 	{
-		var semanticString = SemanticString.FromString<MySemanticString>(string.Empty);
+		MySemanticString semanticString = SemanticString.FromString<MySemanticString>(string.Empty);
 		Assert.IsTrue(semanticString.IsEmpty());
 	}
 
 	[TestMethod]
 	public void IsValidMethod()
 	{
-		var semanticString = SemanticString.FromString<MySemanticString>("test");
+		MySemanticString semanticString = SemanticString.FromString<MySemanticString>("test");
 		Assert.IsTrue(semanticString.IsValid());
 	}
 
 	[TestMethod]
 	public void ValidatedStringIsValid()
 	{
-		var semanticString = SemanticString.FromString<MyValidatedString>("http://example.com");
+		MyValidatedString semanticString = SemanticString.FromString<MyValidatedString>("http://example.com");
 		Assert.IsTrue(semanticString.IsValid());
 	}
 
@@ -90,23 +90,23 @@ public class SemanticStringTests
 	[TestMethod]
 	public void WithPrefixMethod()
 	{
-		var semanticString = SemanticString.FromString<MySemanticString>("test");
-		var result = semanticString.WithPrefix("pre-");
+		MySemanticString semanticString = SemanticString.FromString<MySemanticString>("test");
+		MySemanticString result = semanticString.WithPrefix("pre-");
 		Assert.AreEqual("pre-test", result.ToString());
 	}
 
 	[TestMethod]
 	public void WithSuffixMethod()
 	{
-		var semanticString = SemanticString.FromString<MySemanticString>("test");
-		var result = semanticString.WithSuffix("-post");
+		MySemanticString semanticString = SemanticString.FromString<MySemanticString>("test");
+		MySemanticString result = semanticString.WithSuffix("-post");
 		Assert.AreEqual("test-post", result.ToString());
 	}
 	[TestMethod]
 	public void AsStringExtensionMethod()
 	{
-		var systemString = "test";
-		var semanticString = systemString.As<MySemanticString>();
+		string systemString = "test";
+		MySemanticString semanticString = systemString.As<MySemanticString>();
 		Assert.AreEqual("test", semanticString.WeakString);
 	}
 
@@ -114,31 +114,31 @@ public class SemanticStringTests
 	public void AsCharArrayExtensionMethod()
 	{
 		char[] charArray = ['t', 'e', 's', 't'];
-		var semanticString = charArray.As<MySemanticString>();
+		MySemanticString semanticString = charArray.As<MySemanticString>();
 		CollectionAssert.AreEqual(charArray, semanticString.ToCharArray());
 	}
 
 	[TestMethod]
 	public void AsReadOnlySpanExtensionMethod()
 	{
-		var span = "test".AsSpan();
-		var semanticString = span.As<MySemanticString>();
+		ReadOnlySpan<char> span = "test".AsSpan();
+		MySemanticString semanticString = span.As<MySemanticString>();
 		Assert.AreEqual("test", semanticString.WeakString);
 	}
 
 	[TestMethod]
 	public void ValidatedStringWithPrefix()
 	{
-		var semanticString = SemanticString.FromString<MyValidatedString>("http://example.com");
-		var result = semanticString.WithPrefix("https://");
+		MyValidatedString semanticString = SemanticString.FromString<MyValidatedString>("http://example.com");
+		MyValidatedString result = semanticString.WithPrefix("https://");
 		Assert.AreEqual("https://http://example.com", result.ToString());
 	}
 
 	[TestMethod]
 	public void ValidatedStringWithSuffix()
 	{
-		var semanticString = SemanticString.FromString<MyValidatedString>("http://example.com");
-		var result = semanticString.WithSuffix("/index.html.com");
+		MyValidatedString semanticString = SemanticString.FromString<MyValidatedString>("http://example.com");
+		MyValidatedString result = semanticString.WithSuffix("/index.html.com");
 		Assert.AreEqual("http://example.com/index.html.com", result.ToString());
 	}
 

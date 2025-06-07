@@ -1,4 +1,4 @@
-<Project Sdk="ktsu.Sdk.Lib/1.17.1">
+﻿<Project Sdk="ktsu.Sdk.Lib">
   <PropertyGroup>
     <RootNamespace>$(AuthorsNamespace).Semantics</RootNamespace>
     <NoWarn>$(NoWarn);CA1859;</NoWarn>
